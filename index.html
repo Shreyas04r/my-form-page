@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Survey Form</title>
+    <title>Form Validation</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -18,7 +18,7 @@
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-            width: 350px;
+            width: 300px;
         }
         .container h2 {
             text-align: center;
@@ -32,15 +32,15 @@
             font-weight: bold;
             margin-bottom: 5px;
         }
-        .form-group input, .form-group select, .form-group textarea {
+        .form-group input {
             width: 100%;
             padding: 8px;
             border: 1px solid #ccc;
             border-radius: 5px;
             font-size: 14px;
         }
-        .form-group input[type="file"] {
-            padding: 5px;
+        .form-group input:focus {
+            border-color: #007bff;
         }
         .error {
             color: red;
@@ -65,83 +65,34 @@
 <body>
 
 <div class="container">
-    <h2>Survey Form</h2>
-    <form id="surveyForm">
-        <!-- Full Name -->
+    <h2>Sign Up</h2>
+    <form id="signupForm">
         <div class="form-group">
             <label for="name">Full Name</label>
             <input type="text" id="name">
             <div class="error" id="nameError"></div>
         </div>
-
-        <!-- Email -->
         <div class="form-group">
-            <label for="email">Email Address</label>
+            <label for="email">Email</label>
             <input type="email" id="email">
             <div class="error" id="emailError"></div>
         </div>
-
-        <!-- Age -->
         <div class="form-group">
-            <label for="age">Age</label>
-            <input type="number" id="age">
-            <div class="error" id="ageError"></div>
+            <label for="password">Password</label>
+            <input type="password" id="password">
+            <div class="error" id="passwordError"></div>
         </div>
-
-        <!-- Gender -->
         <div class="form-group">
-            <label>Gender</label>
-            <select id="gender">
-                <option value="">Select</option>
-                <option value="Male">Male</option>
-                <option value="Female">Female</option>
-                <option value="Other">Other</option>
-                <option value="Prefer not to say">Prefer not to say</option>
-            </select>
-            <div class="error" id="genderError"></div>
+            <label for="confirmPassword">Confirm Password</label>
+            <input type="password" id="confirmPassword">
+            <div class="error" id="confirmPasswordError"></div>
         </div>
-
-        <!-- Feedback -->
-        <div class="form-group">
-            <label for="feedback">Feedback (Optional)</label>
-            <textarea id="feedback" rows="3"></textarea>
-        </div>
-
-        <!-- Date of Birth -->
-        <div class="form-group">
-            <label for="dob">Date of Birth</label>
-            <input type="date" id="dob">
-            <div class="error" id="dobError"></div>
-        </div>
-
-        <!-- Recommendation -->
-        <div class="form-group">
-            <label>Would you recommend our product?</label>
-            <input type="checkbox" id="recommend">
-            <span>Yes</span>
-            <div class="error" id="recommendError"></div>
-        </div>
-
-        <!-- Feedback Rating -->
-        <div class="form-group">
-            <label for="rating">Feedback Rating (1-10)</label>
-            <input type="number" id="rating" min="1" max="10">
-            <div class="error" id="ratingError"></div>
-        </div>
-
-        <!-- File Upload -->
-        <div class="form-group">
-            <label for="file">Upload a File (Optional, max 10MB, images only)</label>
-            <input type="file" id="file" accept="image/*">
-            <div class="error" id="fileError"></div>
-        </div>
-
-        <button type="submit" class="btn">Submit</button>
+        <button type="submit" class="btn">Register</button>
     </form>
 </div>
 
 <script>
-    document.getElementById("surveyForm").addEventListener("submit", function (e) {
+    document.getElementById("signupForm").addEventListener("submit", function (e) {
         e.preventDefault();
 
         let isValid = true;
@@ -151,70 +102,47 @@
 
         const name = document.getElementById("name").value.trim();
         const email = document.getElementById("email").value.trim();
-        const age = document.getElementById("age").value.trim();
-        const gender = document.getElementById("gender").value;
-        const dob = document.getElementById("dob").value;
-        const recommend = document.getElementById("recommend").checked;
-        const rating = document.getElementById("rating").value;
-        const file = document.getElementById("file").files[0];
+        const password = document.getElementById("password").value.trim();
+        const confirmPassword = document.getElementById("confirmPassword").value.trim();
 
-        // Full Name validation
-        if (name.length < 3) {
-            document.getElementById("nameError").textContent = "Name must be at least 3 characters";
+        // Name validation
+        if (name === "") {
+            document.getElementById("nameError").textContent = "Name is required";
             isValid = false;
         }
 
         // Email validation
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(email)) {
+        if (email === "") {
+            document.getElementById("emailError").textContent = "Email is required";
+            isValid = false;
+        } else if (!emailRegex.test(email)) {
             document.getElementById("emailError").textContent = "Invalid email format";
             isValid = false;
         }
 
-        // Age validation
-        if (age < 18 || age > 100 || isNaN(age)) {
-            document.getElementById("ageError").textContent = "Age must be between 18 and 100";
+        // Password validation
+        if (password === "") {
+            document.getElementById("passwordError").textContent = "Password is required";
+            isValid = false;
+        } else if (password.length < 6) {
+            document.getElementById("passwordError").textContent = "Password must be at least 6 characters";
             isValid = false;
         }
 
-        // Gender validation
-        if (!gender) {
-            document.getElementById("genderError").textContent = "Please select a gender";
+        // Confirm password validation
+        if (confirmPassword === "") {
+            document.getElementById("confirmPasswordError").textContent = "Confirm Password is required";
+            isValid = false;
+        } else if (password !== confirmPassword) {
+            document.getElementById("confirmPasswordError").textContent = "Passwords do not match";
             isValid = false;
         }
 
-        // Date of Birth validation
-        const birthDate = new Date(dob);
-        const today = new Date();
-        const ageCheck = today.getFullYear() - birthDate.getFullYear();
-        if (ageCheck < 18 || dob === "") {
-            document.getElementById("dobError").textContent = "You must be at least 18 years old";
-            isValid = false;
-        }
-
-        // Recommendation validation
-        if (!recommend) {
-            document.getElementById("recommendError").textContent = "Please check this box";
-            isValid = false;
-        }
-
-        // Rating validation
-        if (rating < 1 || rating > 10 || isNaN(rating)) {
-            document.getElementById("ratingError").textContent = "Rating must be between 1 and 10";
-            isValid = false;
-        }
-
-        // File validation
-        if (file) {
-            if (file.size > 10 * 1024 * 1024) {
-                document.getElementById("fileError").textContent = "File must be less than 10MB";
-                isValid = false;
-            }
-        }
-
+        // Submit if valid
         if (isValid) {
             alert("Form submitted successfully!");
-            document.getElementById("surveyForm").reset();
+            document.getElementById("signupForm").reset();
         }
     });
 </script>
