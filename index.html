@@ -1,356 +1,366 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Survey Form</title>
-    <style>
-        /* Reset some default margins/paddings */
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #e9ecef;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 20px;
-        }
-
-        .container {
-            background: #fff;
-            padding: 30px 40px;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 500px;
-        }
-
-        .container h2 {
-            text-align: center;
-            margin-bottom: 25px;
-            color: #333;
-        }
-
-        form {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            margin-bottom: 15px;
-        }
-
-        .form-group label {
-            font-weight: 600;
-            margin-bottom: 5px;
-            color: #555;
-        }
-
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
-            padding: 10px;
-            font-size: 14px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            transition: border 0.3s ease;
-        }
-
-        .form-group input:focus,
-        .form-group select:focus,
-        .form-group textarea:focus {
-            outline: none;
-            border-color: #007bff;
-        }
-
-        .form-group input[type="checkbox"] {
-            width: auto;
-            margin-right: 10px;
-        }
-
-        .error {
-            color: #d9534f;
-            font-size: 12px;
-            margin-top: 5px;
-            display: none;
-        }
-
-        .btn {
-            background: #007bff;
-            color: #fff;
-            border: none;
-            padding: 12px;
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: background 0.3s ease;
-            margin-top: 10px;
-        }
-
-        .btn:hover {
-            background: #0056b3;
-        }
-
-        /* Modal Popup Styles */
-        .popup {
-            display: none; /* Hidden by default */
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            justify-content: center;
-            align-items: center;
-        }
-
-        .popup-content {
-            background-color: #fff;
-            padding: 20px 30px;
-            border-radius: 8px;
-            width: 90%;
-            max-width: 350px;
-            position: relative;
-            text-align: center;
-        }
-
-        .popup-content p {
-            font-size: 16px;
-            margin-bottom: 20px;
-        }
-
-        .close {
-            position: absolute;
-            top: 10px;
-            right: 15px;
-            font-size: 24px;
-            cursor: pointer;
-            color: #aaa;
-        }
-
-        .close:hover {
-            color: #000;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Advanced E-commerce with Popups</title>
+  <style>
+    /* Global Styles */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f4f4f4;
+    }
+    /* Header Styles */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #333;
+      color: #fff;
+      padding: 1em 2em;
+    }
+    header h1 {
+      margin: 0;
+    }
+    #balance {
+      font-size: 1.1em;
+      background: #555;
+      padding: 0.5em 1em;
+      border-radius: 4px;
+    }
+    /* Main Layout */
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      padding: 2em;
+    }
+    .product-list {
+      flex: 3;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5em;
+    }
+    .product-card {
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      padding: 1em;
+      width: calc(33% - 1em);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    .product-card img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 4px;
+    }
+    .product-card h3 {
+      margin: 0.5em 0;
+    }
+    .product-card p {
+      font-size: 1.1em;
+      color: #333;
+    }
+    .product-card button {
+      background: #28a745;
+      color: #fff;
+      border: none;
+      padding: 0.5em 1em;
+      cursor: pointer;
+      border-radius: 4px;
+      transition: background 0.3s ease;
+    }
+    .product-card button:hover {
+      background: #218838;
+    }
+    /* Cart Styles */
+    .cart {
+      flex: 1;
+      background: #fff;
+      padding: 1em;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      margin-left: 1em;
+      height: fit-content;
+    }
+    .cart h2 {
+      margin-top: 0;
+    }
+    .cart ul {
+      list-style-type: none;
+      padding: 0;
+      max-height: 300px;
+      overflow-y: auto;
+      margin-bottom: 1em;
+    }
+    .cart ul li {
+      border-bottom: 1px solid #ddd;
+      padding: 0.5em 0;
+      font-size: 0.9em;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .cart ul li span {
+      margin-right: 1em;
+    }
+    .cart ul li button {
+      background: #dc3545;
+      color: #fff;
+      border: none;
+      padding: 0.2em 0.5em;
+      cursor: pointer;
+      border-radius: 4px;
+      transition: background 0.3s ease;
+    }
+    .cart ul li button:hover {
+      background: #c82333;
+    }
+    .cart button#checkout {
+      background: #007bff;
+      color: #fff;
+      border: none;
+      padding: 0.5em 1em;
+      cursor: pointer;
+      border-radius: 4px;
+      transition: background 0.3s ease;
+      width: 100%;
+    }
+    .cart button#checkout:hover {
+      background: #0069d9;
+    }
+    /* Modal Styles */
+    .modal {
+      display: none; /* Hidden by default */
+      position: fixed;
+      z-index: 1;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0,0,0,0.5);
+    }
+    .modal-content {
+      background-color: #fefefe;
+      margin: 15% auto;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 80%;
+      max-width: 400px;
+      text-align: center;
+      border-radius: 8px;
+      position: relative;
+    }
+    .close {
+      color: #aaa;
+      position: absolute;
+      right: 10px;
+      top: 5px;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .close:hover,
+    .close:focus {
+      color: black;
+      text-decoration: none;
+    }
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .product-card {
+        width: calc(50% - 1em);
+      }
+      .container {
+        flex-direction: column;
+      }
+      .cart {
+        margin-left: 0;
+        margin-top: 2em;
+      }
+    }
+    @media (max-width: 480px) {
+      .product-card {
+        width: 100%;
+      }
+    }
+    footer {
+      background: #333;
+      color: #fff;
+      text-align: center;
+      padding: 1em 2em;
+      margin-top: 2em;
+    }
+  </style>
 </head>
 <body>
+<!-- Header with Balance Display -->
+<header>
+  <h1>My Shop</h1>
+  <div id="balance">Balance: $100.00</div>
+</header>
+
+<!-- Main Content -->
 <div class="container">
-    <h2>Survey Form</h2>
-    <form id="surveyForm">
-        <!-- Full Name -->
-        <div class="form-group">
-            <label for="name">Full Name</label>
-            <input type="text" id="name" placeholder="Enter your name"/>
-            <div class="error" id="nameError">Name must be at least 3 characters</div>
-        </div>
+  <!-- Product List -->
+  <section class="product-list">
+    <!-- Product Card 1 -->
+    <div class="product-card" data-id="1" data-price="10">
+      <img src="https://via.placeholder.com/300x200" alt="Product 1" />
+      <h3>Product 1</h3>
+      <p>$10.00</p>
+      <button class="add-to-cart">Add to Cart</button>
+    </div>
+    <!-- Product Card 2 -->
+    <div class="product-card" data-id="2" data-price="15">
+      <img src="https://via.placeholder.com/300x200" alt="Product 2" />
+      <h3>Product 2</h3>
+      <p>$15.00</p>
+      <button class="add-to-cart">Add to Cart</button>
+    </div>
+    <!-- Product Card 3 -->
+    <div class="product-card" data-id="3" data-price="20">
+      <img src="https://via.placeholder.com/300x200" alt="Product 3" />
+      <h3>Product 3</h3>
+      <p>$20.00</p>
+      <button class="add-to-cart">Add to Cart</button>
+    </div>
+  </section>
 
-        <!-- Email -->
-        <div class="form-group">
-            <label for="email">Email Address</label>
-            <input type="email" id="email" placeholder="example@mail.com"/>
-            <div class="error" id="emailError">Invalid email format</div>
-        </div>
-
-        <!-- Age -->
-        <div class="form-group">
-            <label for="age">Age</label>
-            <input type="number" id="age" placeholder="Enter your age"/>
-            <div class="error" id="ageError">Age must be between 18 and 100</div>
-        </div>
-
-        <!-- Gender -->
-        <div class="form-group">
-            <label for="gender">Gender</label>
-            <select id="gender">
-                <option value="">Select Gender</option>
-                <option value="Male">Male</option>
-                <option value="Female">Female</option>
-                <option value="Other">Other</option>
-                <option value="Prefer not to say">Prefer not to say</option>
-            </select>
-            <div class="error" id="genderError">Please select a gender</div>
-        </div>
-
-        <!-- Feedback -->
-        <div class="form-group">
-            <label for="feedback">Feedback (Optional)</label>
-            <textarea id="feedback" rows="3" placeholder="Your feedback"></textarea>
-        </div>
-
-        <!-- Date of Birth -->
-        <div class="form-group">
-            <label for="dob">Date of Birth</label>
-            <input type="date" id="dob"/>
-            <div class="error" id="dobError">You must be at least 18 years old</div>
-        </div>
-
-        <!-- Recommendation (Optional) -->
-        <div class="form-group" style="flex-direction: row; align-items: center;">
-            <input type="checkbox" id="recommend"/>
-            <label for="recommend" style="margin: 0;">Would you recommend our product?</label>
-        </div>
-
-        <!-- Feedback Rating -->
-        <div class="form-group">
-            <label for="rating">Feedback Rating (1-10)</label>
-            <input type="number" id="rating" min="1" max="10" placeholder="Enter a rating"/>
-            <div class="error" id="ratingError">Rating must be between 1 and 10</div>
-        </div>
-
-        <!-- File Upload -->
-        <div class="form-group">
-            <label for="file">Upload a File (Optional, max 10MB, images only)</label>
-            <input type="file" id="file" accept="image/*"/>
-            <div class="error" id="fileError">File must be less than 10MB</div>
-        </div>
-
-        <button type="submit" class="btn">Submit</button>
-    </form>
+  <!-- Cart Sidebar -->
+  <aside class="cart">
+    <h2>Shopping Cart</h2>
+    <ul id="cart-items">
+      <!-- Cart items will be added here dynamically -->
+    </ul>
+    <button id="checkout">Checkout</button>
+  </aside>
 </div>
 
 <!-- Modal Popup -->
-<div id="popup" class="popup">
-    <div class="popup-content">
-        <span class="close" id="closePopup">&times;</span>
-        <p>Form submitted successfully!</p>
-    </div>
+<div id="modal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <p id="modal-message"></p>
+  </div>
 </div>
 
+<!-- Footer -->
+<footer>
+  <p>&copy; 2025 My Shop. All rights reserved.</p>
+</footer>
+
+<!-- JavaScript Functionality -->
 <script>
-    // Helper function for real-time field validation
-    function validateField(input, errorId, condition) {
-        const errorElement = document.getElementById(errorId);
-        errorElement.style.display = condition ? "none" : "block";
+  document.addEventListener('DOMContentLoaded', function() {
+    let userBalance = 100.00; // Default balance per user
+    let cart = [];
+    const balanceDisplay = document.getElementById('balance');
+    const cartItemsList = document.getElementById('cart-items');
+    const modal = document.getElementById('modal');
+    const modalMessage = document.getElementById('modal-message');
+    const closeModalButton = document.querySelector('.close');
+
+    // Update the balance display
+    function updateBalanceDisplay() {
+      balanceDisplay.textContent = 'Balance: $' + userBalance.toFixed(2);
     }
 
-    // Real-time validations on input/change events
-    document.getElementById("name").addEventListener("input", function () {
-        validateField(this, "nameError", this.value.trim().length >= 3);
-    });
-    document.getElementById("email").addEventListener("input", function () {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        validateField(this, "emailError", emailRegex.test(this.value.trim()));
-    });
-    document.getElementById("age").addEventListener("input", function () {
-        validateField(this, "ageError", this.value >= 18 && this.value <= 100);
-    });
-    document.getElementById("gender").addEventListener("change", function () {
-        validateField(this, "genderError", this.value !== "");
-    });
-    document.getElementById("dob").addEventListener("input", function () {
-        const birthDate = new Date(this.value);
-        const today = new Date();
-        const ageCheck = today.getFullYear() - birthDate.getFullYear();
-        validateField(this, "dobError", !isNaN(birthDate.getTime()) && ageCheck >= 18);
-    });
-    document.getElementById("rating").addEventListener("input", function () {
-        validateField(this, "ratingError", this.value >= 1 && this.value <= 10);
-    });
-    document.getElementById("file").addEventListener("change", function () {
-        const file = this.files[0];
-        validateField(this, "fileError", !file || file.size <= 10 * 1024 * 1024);
+    // Render the shopping cart items
+    function renderCart() {
+      cartItemsList.innerHTML = '';
+      cart.forEach((item, index) => {
+        const li = document.createElement('li');
+        li.innerHTML = '<span>' + item.name + ' (x' + item.quantity + ') - $' + (item.price * item.quantity).toFixed(2) + '</span>';
+        const removeButton = document.createElement('button');
+        removeButton.textContent = 'Remove';
+        removeButton.addEventListener('click', function() {
+          removeFromCart(index);
+        });
+        li.appendChild(removeButton);
+        cartItemsList.appendChild(li);
+      });
+    }
+
+    // Show modal popup with a custom message
+    function showModal(message) {
+      modalMessage.textContent = message;
+      modal.style.display = 'block';
+    }
+
+    // Hide modal popup
+    function hideModal() {
+      modal.style.display = 'none';
+    }
+
+    // Close modal when the close button is clicked
+    closeModalButton.addEventListener('click', hideModal);
+
+    // Close modal when clicking outside the modal content
+    window.addEventListener('click', function(event) {
+      if (event.target == modal) {
+        hideModal();
+      }
     });
 
-    // Full validation on form submission
-    document.getElementById("surveyForm").addEventListener("submit", function (e) {
-        e.preventDefault();
-        let valid = true;
+    // Add product to cart
+    document.querySelectorAll('.add-to-cart').forEach(button => {
+      button.addEventListener('click', function() {
+        const productCard = this.parentElement;
+        const productId = productCard.getAttribute('data-id');
+        const productName = productCard.querySelector('h3').textContent;
+        const productPrice = parseFloat(productCard.getAttribute('data-price'));
 
-        // Name Validation
-        const nameInput = document.getElementById("name");
-        if (nameInput.value.trim().length < 3) {
-            document.getElementById("nameError").style.display = "block";
-            valid = false;
+        // If the product is already in the cart, increase its quantity
+        const existingItem = cart.find(item => item.id === productId);
+        if (existingItem) {
+          existingItem.quantity += 1;
         } else {
-            document.getElementById("nameError").style.display = "none";
+          cart.push({
+            id: productId,
+            name: productName,
+            price: productPrice,
+            quantity: 1
+          });
         }
-
-        // Email Validation
-        const emailInput = document.getElementById("email");
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(emailInput.value.trim())) {
-            document.getElementById("emailError").style.display = "block";
-            valid = false;
-        } else {
-            document.getElementById("emailError").style.display = "none";
-        }
-
-        // Age Validation
-        const ageInput = document.getElementById("age");
-        if (ageInput.value < 18 || ageInput.value > 100) {
-            document.getElementById("ageError").style.display = "block";
-            valid = false;
-        } else {
-            document.getElementById("ageError").style.display = "none";
-        }
-
-        // Gender Validation
-        const genderInput = document.getElementById("gender");
-        if (genderInput.value === "") {
-            document.getElementById("genderError").style.display = "block";
-            valid = false;
-        } else {
-            document.getElementById("genderError").style.display = "none";
-        }
-
-        // Date of Birth Validation
-        const dobInput = document.getElementById("dob");
-        const birthDate = new Date(dobInput.value);
-        const today = new Date();
-        const ageCheck = today.getFullYear() - birthDate.getFullYear();
-        if (!dobInput.value || isNaN(birthDate.getTime()) || ageCheck < 18) {
-            document.getElementById("dobError").style.display = "block";
-            valid = false;
-        } else {
-            document.getElementById("dobError").style.display = "none";
-        }
-
-        // Feedback Rating Validation
-        const ratingInput = document.getElementById("rating");
-        if (ratingInput.value < 1 || ratingInput.value > 10) {
-            document.getElementById("ratingError").style.display = "block";
-            valid = false;
-        } else {
-            document.getElementById("ratingError").style.display = "none";
-        }
-
-        // File Upload Validation (Optional)
-        const fileInput = document.getElementById("file");
-        const file = fileInput.files[0];
-        if (file && file.size > 10 * 1024 * 1024) {
-            document.getElementById("fileError").style.display = "block";
-            valid = false;
-        } else {
-            document.getElementById("fileError").style.display = "none";
-        }
-
-        // If all validations pass, show the modal pop-up; otherwise, do nothing.
-        if (valid) {
-            document.getElementById("popup").style.display = "flex";
-            this.reset();
-        }
+        renderCart();
+      });
     });
 
-    // Close modal when the user clicks on the close button
-    document.getElementById("closePopup").addEventListener("click", function () {
-        document.getElementById("popup").style.display = "none";
+    // Remove a product from the cart
+    function removeFromCart(index) {
+      if(cart[index].quantity > 1) {
+        cart[index].quantity -= 1;
+      } else {
+        cart.splice(index, 1);
+      }
+      renderCart();
+    }
+
+    // Checkout functionality: calculate total, simulate payment, and update balance
+    document.getElementById('checkout').addEventListener('click', function() {
+      if(cart.length === 0) {
+        showModal("Your cart is empty!");
+        return;
+      }
+      // Calculate the total cost
+      const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+      if(total > userBalance) {
+        showModal("Insufficient funds! Your total is $" + total.toFixed(2) + " but your balance is $" + userBalance.toFixed(2));
+      } else {
+        userBalance -= total;
+        showModal("Payment successful! You spent $" + total.toFixed(2) + ". New balance: $" + userBalance.toFixed(2));
+        cart = []; // Clear cart on successful checkout
+        renderCart();
+        updateBalanceDisplay();
+      }
     });
 
-    // Close modal when the user clicks outside the modal content
-    window.addEventListener("click", function (event) {
-        if (event.target === document.getElementById("popup")) {
-            document.getElementById("popup").style.display = "none";
-        }
-    });
+    // Initialize balance display
+    updateBalanceDisplay();
+  });
 </script>
 </body>
 </html>
